@@ -1,8 +1,25 @@
 # Traders Guild: energy / compute research starter
 
-A small Python pair-strategy simulator with a Hummingbot V2 replay adapter. **No live orders, API keys, deposits or external publication.** This is an experiment in relative pricing, not a proven arbitrage or calibrated datacenter hedge.
+An open research lab with a Vercel-ready interactive dashboard, equivalent Python and Node.js paper engines, and a read-only monitor using Hummingbot's official Architect connector. **No live orders or deposits.** This is an experiment in relative pricing, not a proven arbitrage or calibrated datacenter hedge.
 
-## Run now
+## Dashboard and Node.js
+
+```sh
+npm ci
+npm run dev
+# http://127.0.0.1:4180
+npm test
+npm run build
+npm run replay -- data/SYNTHETIC_demo.csv
+```
+
+The dashboard includes three clearly labeled synthetic scenarios, adjustable notional/beta/costs, replay scrubbing, signal and P&L charts, an event ledger, local CSV import/export, a read-only book snapshot API and a research thesis. No credentials are needed for the demo. It does not run an always-on trading process on Vercel.
+
+- [Vercel and environment setup](docs/DEPLOYMENT.md)
+- [Hummingbot and Node market-data collectors](docs/HUMMINGBOT.md)
+- [Trade thesis and falsification criteria](public/thesis.md)
+
+## Run the original Python replay
 
 Python 3.10+; the standalone engine uses only the standard library.
 
@@ -44,7 +61,9 @@ UNG tracks natural-gas futures through an ETF. It is neither physical electricit
 
 Hummingbot upstream commit reviewed: `9af100d6822da7d2d0291a906c730ef172284ee2`. The official `architect_perpetual` connector parses `*-PERP` symbols and skips the dated GPU symbol. A saved source excerpt is in `evidence/connector-review.txt`. Renaming the GPU contract would not fix funding, expiry, settlement or multiplier semantics. We deliberately do not claim live two-leg support.
 
-## Hummingbot integration
+## Original Hummingbot CSV replay adapter
+
+For the new authenticated **market-data monitor**, see [HUMMINGBOT.md](docs/HUMMINGBOT.md). The instructions below describe the older CSV-only adapter.
 
 The adapter follows the current `StrategyV2Base` / `StrategyV2ConfigBase` interface used by upstream `scripts/log_price_example.py`. In a compatible Hummingbot source installation:
 
@@ -85,4 +104,4 @@ The replay does not force-close at the last row: inspect open liquidation P&L as
 - Hummingbot V2 example: https://github.com/hummingbot/hummingbot/blob/9af100d6822da7d2d0291a906c730ef172284ee2/scripts/log_price_example.py
 - Economic framework: https://architect.co/insights/articles/intercommodity-spreads-crack-to-compute/
 
-Prepared for local iteration. Nothing has been pushed to GitHub. Choose the repository owner and an open-source license before public release.
+Contributed to the existing `uwecerron/architect-hummingbot` repository. No license grant has been added; the repository owner must choose a license before others can rely on reuse rights. The strategy is experimental and has no demonstrated trading edge.

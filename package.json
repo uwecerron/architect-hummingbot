@@ -1,0 +1,20 @@
+{
+  "name": "guild-compute-energy-lab",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "node scripts/node/dev.mjs",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --test tests-js/*.test.mjs",
+    "replay": "node scripts/node/replay.mjs",
+    "collect": "node scripts/node/collect.mjs"
+  },
+  "devDependencies": {
+    "vite": "^7.1.0"
+  }
+}
