@@ -2,6 +2,8 @@
 
 An open research lab with a Vercel-ready interactive dashboard, equivalent Python and Node.js paper engines, and a read-only monitor using Hummingbot's official Architect connector. **No live orders or deposits.** This is an experiment in relative pricing, not a proven arbitrage or calibrated datacenter hedge.
 
+[Open the demo](https://guild-compute-energy-lab.vercel.app/) · [Read the trade thesis](https://guild-compute-energy-lab.vercel.app/thesis.html)
+
 ## Dashboard and Node.js
 
 ```sh
