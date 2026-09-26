@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://guild-compute-energy-lab.vercel.app/sitemap.xml
