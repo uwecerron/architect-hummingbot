@@ -107,3 +107,6 @@ The replay does not force-close at the last row: inspect open liquidation P&L as
 - Economic framework: https://architect.co/insights/articles/intercommodity-spreads-crack-to-compute/
 
 Contributed to the existing `uwecerron/architect-hummingbot` repository. No license grant has been added; the repository owner must choose a license before others can rely on reuse rights. The strategy is experimental and has no demonstrated trading edge.
+
+### Lighter H100 comparison
+The dashboard discovers the active H100 perpetual from Lighter’s public mainnet catalogue and reads its book and funding-rate feed through `/api/lighter`. No API key is needed. Results are cached for up to 30 seconds; receipt time is not an exchange event timestamp. Depth is limited to 100 returned orders per side, with a 1% midprice band. Funding is raw until its period is verified. The comparison does not treat Architect’s dated Compute Desk future and Lighter’s perpetual as interchangeable or calculate an arbitrage edge. Synthetic replay is unchanged.

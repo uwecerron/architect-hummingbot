@@ -47,11 +47,27 @@ $('#export').onclick=()=>download('guild-'+(uploaded?'imported':'synthetic-'+cur
 $('#download-input').onclick=()=>download((uploaded?'USER_SUPPLIED':'SYNTHETIC_'+currentScenario)+'-quotes.csv',csv(quotes));
 $('#upload').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>8_000_000)throw Error('CSV exceeds 8 MB');const qs=parseCSV(await f.text());if(run(qs)){uploaded=true;source='Imported / '+f.name;render();}}catch(err){fail(err);}e.target.value='';};
 $('#fetch-market').onclick=async()=>{
- const btn=$('#fetch-market');btn.disabled=true;$('#market-status').textContent='Requesting two validated book snapshots…';$('#book-view').innerHTML='';
+ const btn=$('#fetch-market');btn.disabled=true;$('#architect-compare').textContent='Requesting authenticated snapshot…';$('#market-status').textContent='Requesting two validated book snapshots…';$('#book-view').innerHTML='';
  try{const token=$('#access-token').value;const r=await fetch('/api/market',{headers:token?{Authorization:'Bearer '+token}:{}});const s=await r.json();
  if(!r.ok||s.mode!=='observed'){$('#market-status').textContent=s.message||'Unavailable';return;}
+ $('#architect-compare').textContent=`${s.environment.toUpperCase()} · H100 ${money(s.books[0].bid,4)} / ${money(s.books[0].ask,4)} · received ${new Date(s.received*1000).toISOString()}`;
  $('#market-status').textContent=`${s.environment.toUpperCase()} · observed ${new Date(s.received*1000).toISOString()} · snapshot only, not a live stream.`;
  $('#book-view').innerHTML='<div class="table-scroll"><table><thead><tr><th>SYMBOL</th><th>BID × SIZE</th><th>ASK × SIZE</th><th>AGE AT FETCH</th></tr></thead><tbody>'+s.books.map(b=>`<tr><td>${esc(b.symbol)}</td><td>${num(b.bid,3)} × ${b.bidSize}</td><td>${num(b.ask,3)} × ${b.askSize}</td><td>${num(s.received-b.timestamp,1)}s</td></tr>`).join('')+'</tbody></table></div><p class="small">Top-of-book sizes are displayed, not assumed fills. Run the collector to accumulate a replayable series.</p>';
  }catch{$('#market-status').textContent='Market endpoint unavailable. Run npm run dev or deploy on Vercel; static preview has no API.';}finally{btn.disabled=false;}
 };
 render();
+
+async function refreshLighter(){
+ const btn=$('#refresh-lighter');btn.disabled=true;$('#lighter-status').textContent='Fetching public Lighter H100 book and metadata…';$('#lighter-stats').innerHTML='';$('#lighter-book').innerHTML='';
+ for(const id of ['lighter-size','lighter-funding','lighter-quote'])$('#'+id).textContent='Awaiting observation';
+ try{const r=await fetch('/api/lighter');if(!r.ok)throw Error('Unavailable');const d=await r.json();
+ $('#lighter-status').textContent=`H100 perpetual · market ${d.marketId} · received ${d.received} · exchange timestamp unavailable. Refresh to update.`;
+ const fmt=v=>v===null?'Unavailable':money(v,4);
+ $('#lighter-stats').innerHTML=[['MARK / INDEX',fmt(d.mark)+' / '+fmt(d.index),'Reference prices, not executable quotes'],['BID–ASK SPREAD',num(d.spreadBps,1)+' bps','Observed top of book'],['24H QUOTE VOLUME',d.volume24h===null?'Unavailable':money(d.volume24h),`${d.trades24h??'Unknown'} trades · exchange reported`],['MARK–INDEX PREMIUM',d.premiumBps===null?'Unavailable':num(d.premiumBps,1)+' bps','Same-venue reference difference']].map(([a,b,c])=>`<article><div class="kicker">${esc(a)}</div><div class="metric">${esc(b)}</div><p>${esc(c)}</p></article>`).join('');
+ $('#lighter-size').textContent=`API multiplier ${d.multiplier??'unknown'}; minimum base ${d.minBase??'unknown'}, minimum quote ${d.minQuote??'unknown'}. Not Architect contract units.`;
+ $('#lighter-funding').textContent=d.fundingRaw===null?'Unavailable':`Raw API rate: ${d.fundingRaw}; period / normalization not verified`;
+ $('#lighter-quote').textContent=`${fmt(d.bid)} / ${fmt(d.ask)}`;
+ $('#lighter-book').innerHTML=`<h3>Visible H100 book</h3><p class="small">Within 1% of mid: bids ${money(d.bidDepth1pct,2)} · asks ${money(d.askDepth1pct,2)}. Orders returned: ${d.ordersReturned.bids} bids / ${d.ordersReturned.asks} asks. Zero means no sampled orders in that band.</p><div class="table-scroll"><table><thead><tr><th>BID PRICE</th><th>BASE SIZE</th><th>ASK PRICE</th><th>BASE SIZE</th></tr></thead><tbody>${Array.from({length:Math.max(d.bids.length,d.asks.length)},(_,i)=>`<tr><td>${d.bids[i]?fmt(d.bids[i].price):'—'}</td><td>${d.bids[i]?num(d.bids[i].size):'—'}</td><td>${d.asks[i]?fmt(d.asks[i].price):'—'}</td><td>${d.asks[i]?num(d.asks[i].size):'—'}</td></tr>`).join('')}</tbody></table></div>`;
+ }catch{$('#lighter-status').textContent='Lighter data unavailable or invalid. No synthetic prices substituted. Try refresh.';}finally{btn.disabled=false;}
+}
+$('#refresh-lighter').addEventListener('click',refreshLighter);refreshLighter();
