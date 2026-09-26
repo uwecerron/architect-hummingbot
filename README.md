@@ -114,3 +114,7 @@ The dashboard discovers the active H100 perpetual from Lighter’s public mainne
 ## Bitget and Lighter compute collectors
 
 Record H100/B200 market observations with `npm run collect:compute -- --once`, or use `scripts/compute_venues_hb.py` with the official Hummingbot Bitget/Lighter perpetual connectors. **Read-only research, not live execution.** Node public-API collection has been smoke-tested; full Hummingbot runtime validation remains outstanding. See [installation, sources, output schema and adoption notes](docs/COMPUTE_VENUES.md).
+
+## Quant tutorial
+
+[Start here: collect observations, run a paper strategy and examine execution costs](docs/QUANT_QUICKSTART.md). Includes runnable commands, research questions and contributor tasks; distinguishes synthetic experiments from observed market data.
