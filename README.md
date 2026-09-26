@@ -1,8 +1,27 @@
 # Traders Guild: energy / compute research starter
 
-A small Python pair-strategy simulator with a Hummingbot V2 replay adapter. **No live orders, API keys, deposits or external publication.** This is an experiment in relative pricing, not a proven arbitrage or calibrated datacenter hedge.
+An open research lab with a Vercel-ready interactive dashboard, equivalent Python and Node.js paper engines, and a read-only monitor using Hummingbot's official Architect connector. **No live orders or deposits.** This is an experiment in relative pricing, not a proven arbitrage or calibrated datacenter hedge.
 
-## Run now
+[Open the demo](https://guild-compute-energy-lab.vercel.app/) · [Read the trade thesis](https://guild-compute-energy-lab.vercel.app/thesis.html)
+
+## Dashboard and Node.js
+
+```sh
+npm ci
+npm run dev
+# http://127.0.0.1:4180
+npm test
+npm run build
+npm run replay -- data/SYNTHETIC_demo.csv
+```
+
+The dashboard includes three clearly labeled synthetic scenarios, adjustable notional/beta/costs, replay scrubbing, signal and P&L charts, an event ledger, local CSV import/export, a read-only book snapshot API and a research thesis. No credentials are needed for the demo. It does not run an always-on trading process on Vercel.
+
+- [Vercel and environment setup](docs/DEPLOYMENT.md)
+- [Hummingbot and Node market-data collectors](docs/HUMMINGBOT.md)
+- [Trade thesis and falsification criteria](public/thesis.md)
+
+## Run the original Python replay
 
 Python 3.10+; the standalone engine uses only the standard library.
 
@@ -44,7 +63,9 @@ UNG tracks natural-gas futures through an ETF. It is neither physical electricit
 
 Hummingbot upstream commit reviewed: `9af100d6822da7d2d0291a906c730ef172284ee2`. The official `architect_perpetual` connector parses `*-PERP` symbols and skips the dated GPU symbol. A saved source excerpt is in `evidence/connector-review.txt`. Renaming the GPU contract would not fix funding, expiry, settlement or multiplier semantics. We deliberately do not claim live two-leg support.
 
-## Hummingbot integration
+## Original Hummingbot CSV replay adapter
+
+For the new authenticated **market-data monitor**, see [HUMMINGBOT.md](docs/HUMMINGBOT.md). The instructions below describe the older CSV-only adapter.
 
 The adapter follows the current `StrategyV2Base` / `StrategyV2ConfigBase` interface used by upstream `scripts/log_price_example.py`. In a compatible Hummingbot source installation:
 
@@ -85,4 +106,11 @@ The replay does not force-close at the last row: inspect open liquidation P&L as
 - Hummingbot V2 example: https://github.com/hummingbot/hummingbot/blob/9af100d6822da7d2d0291a906c730ef172284ee2/scripts/log_price_example.py
 - Economic framework: https://architect.co/insights/articles/intercommodity-spreads-crack-to-compute/
 
-Prepared for local iteration. Nothing has been pushed to GitHub. Choose the repository owner and an open-source license before public release.
+Contributed to the existing `uwecerron/architect-hummingbot` repository. No license grant has been added; the repository owner must choose a license before others can rely on reuse rights. The strategy is experimental and has no demonstrated trading edge.
+
+### Lighter H100 comparison
+The dashboard discovers the active H100 perpetual from Lighter’s public mainnet catalogue and reads its book and funding-rate feed through `/api/lighter`. No API key is needed. Results are cached for up to 30 seconds; receipt time is not an exchange event timestamp. Depth is limited to 100 returned orders per side, with a 1% midprice band. Funding is raw until its period is verified. The comparison does not treat Architect’s dated Compute Desk future and Lighter’s perpetual as interchangeable or calculate an arbitrage edge. Synthetic replay is unchanged.
+
+## Bitget and Lighter compute collectors
+
+Record H100/B200 market observations with `npm run collect:compute -- --once`, or use `scripts/compute_venues_hb.py` with the official Hummingbot Bitget/Lighter perpetual connectors. **Read-only research, not live execution.** Node public-API collection has been smoke-tested; full Hummingbot runtime validation remains outstanding. See [installation, sources, output schema and adoption notes](docs/COMPUTE_VENUES.md).

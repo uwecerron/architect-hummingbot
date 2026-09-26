@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {parseLighter} from '../lib/lighter.js';
+const details={code:200,order_book_details:[{symbol:'H100',market_type:'perp',market_id:182,status:'active',mark_price:'2',index_price:'2',daily_quote_token_volume:0}]};
+const book={code:200,bids:[{price:'1.99',remaining_base_amount:'10'},{price:'1.9',remaining_base_amount:'100'}],asks:[{price:'2.01',remaining_base_amount:'5'}]};
+test('Lighter depth is sampled within mid band and missing metrics stay null',()=>{const d=parseLighter(details,book,null);assert.equal(d.bidDepth1pct,19.9);assert.equal(d.askDepth1pct,10.049999999999999);assert.equal(d.fundingRaw,null);assert.equal(d.openInterestRaw,null);assert.equal(d.volume24h,0);assert.equal(d.exchangeTimestamp,null);});
+test('Reject crossed books and inactive H100',()=>{assert.throws(()=>parseLighter(details,{...book,asks:[{price:1,remaining_base_amount:2}]},null));assert.throws(()=>parseLighter({code:200,order_book_details:[{...details.order_book_details[0],status:'inactive'}]},book,null));});
+test('Funding belongs to the exact venue and market',()=>{const d=parseLighter(details,book,{code:200,funding_rates:[{symbol:'H100',market_id:182,exchange:'other',rate:4},{symbol:'H100',market_id:182,exchange:'lighter',rate:.000032}]});assert.equal(d.fundingRaw,.000032);});

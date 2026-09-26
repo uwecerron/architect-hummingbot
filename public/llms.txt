@@ -1,0 +1,19 @@
+# Traders Guild Compute / Energy Lab
+
+> Public research tool by Uwe Cerron at Traders Guild. Studies H100 GPU futures versus UNG energy exposure. Default quotes and returns are synthetic. No orders are placed and no trading edge has been demonstrated.
+
+## Research and evidence
+- [Interactive lab](https://guild-compute-energy-lab.vercel.app/): Paper simulator, methodology and limitations; research text is available without JavaScript.
+- [Research thesis](https://guild-compute-energy-lab.vercel.app/thesis.md): Plain-text thesis and methodology.
+- [Illustrated thesis](https://guild-compute-energy-lab.vercel.app/thesis.html): Synthetic failure case with explanation.
+- [Instrument evidence](https://guild-compute-energy-lab.vercel.app/instruments.json): Saved instrument catalogue snapshot, not live quotes.
+- [Code](https://github.com/uwecerron/architect-hummingbot/tree/feature/compute-energy-lab): Python and Node.js implementations and read-only Hummingbot monitor.
+
+## Author and publisher
+- [Traders Guild](https://www.tradersguild.global/)
+- [Traders Guild on X](https://x.com/traders_guild)
+- [Uwe Cerron on LinkedIn](https://www.linkedin.com/in/uwecerron/)
+- [Telegram contact](https://t.me/UweJensCerron)
+
+## Disclosure and scope
+Architect is a Traders Guild client. The signup link is a referral. UNG is not a direct electricity hedge. Modeled results exclude funding, financing, market impact and liquidation. Authenticated Hummingbot runtime validation remains outstanding. Listing a contract does not establish executable liquidity.

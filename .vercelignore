@@ -1,0 +1,9 @@
+.git
+.env
+.env.local
+.env.production
+output
+__pycache__
+.venv
+tests
+tests-js

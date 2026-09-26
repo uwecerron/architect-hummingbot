@@ -1,0 +1,239 @@
+{
+  "observed_at": "2026-09-26T20:01:42.484754+00:00",
+  "source": "https://gateway.architect.exchange/api/instruments",
+  "instruments": [
+    {
+      "symbol": "NVDA-H100-2026-DEC",
+      "product": "NVDA-H100",
+      "expiration": "2026-12-31T21:00:00Z",
+      "multiplier": "730",
+      "price_scale": 1000,
+      "minimum_order_size": "1",
+      "tick_size": "0.001",
+      "quote_currency": "USD",
+      "price_band_lower_deviation_pct": "10",
+      "price_band_upper_deviation_pct": "10",
+      "funding_settlement_currency": "USD",
+      "additional_product_specs": null,
+      "estimated_funding_supported": false,
+      "maintenance_margin_pct": "15.0",
+      "initial_margin_pct": "20.0",
+      "category": "compute",
+      "description": "H100 GPU Compute Dec-2026 Future",
+      "underlying_benchmark_price": "Compute Desk NVIDIA H100 GPU Index",
+      "contract_mark_price": "Average price on AX at 4pm EST",
+      "contract_size": "730 GPU-hours per contract",
+      "price_quotation": "U.S. dollars per GPU-compute-hour",
+      "price_bands": "+/- 10% from prior Contract Mark Price",
+      "trading_schedule": {
+        "segments": [
+          {
+            "days_of_week": [
+              7,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "time_of_day": {
+              "hours": 20,
+              "minutes": 0,
+              "seconds": 0
+            },
+            "duration_seconds": 3600,
+            "state": "PRE_OPEN",
+            "hide_market_data": false,
+            "expire_all_orders": false
+          },
+          {
+            "days_of_week": [
+              7,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "time_of_day": {
+              "hours": 21,
+              "minutes": 0,
+              "seconds": 0
+            },
+            "duration_seconds": 82800,
+            "state": "OPEN",
+            "hide_market_data": false,
+            "expire_all_orders": false
+          }
+        ]
+      }
+    },
+    {
+      "symbol": "UNG-PERP",
+      "product": "UNG",
+      "expiration": null,
+      "multiplier": "1",
+      "price_scale": 100,
+      "minimum_order_size": "1",
+      "tick_size": "0.01",
+      "quote_currency": "USD",
+      "price_band_lower_deviation_pct": "10",
+      "price_band_upper_deviation_pct": "10",
+      "funding_settlement_currency": "USD",
+      "funding_rate_cap_upper_pct": "0.25",
+      "funding_rate_cap_lower_pct": "-0.25",
+      "maintenance_margin_pct": "15.0",
+      "initial_margin_pct": "30.0",
+      "category": "energy_etfs",
+      "description": "US Natural Gas Fund US Equity Perpetual Future",
+      "underlying_benchmark_price": "Arca Official Closing Price",
+      "contract_mark_price": "Average price on AX at 4pm New York Time",
+      "contract_size": "1 share per contract",
+      "price_quotation": "U.S. dollars per share",
+      "price_bands": "+/- 10% from prior Contract Mark Price",
+      "funding_schedule_time_description": "Daily around 4:00 P.M. NY time",
+      "funding_schedule_calendar_description": "All days where a valid Underlying Benchmark Price AND Contract Mark Price are published",
+      "funding_schedule": {
+        "timezone": "America/New_York",
+        "times": [
+          {
+            "days_of_week": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "time_of_day": {
+              "hours": 16,
+              "minutes": 0,
+              "seconds": 0
+            }
+          }
+        ],
+        "exceptions": [
+          {
+            "date": "2026-01-01",
+            "times": [],
+            "reason": "New Year's Day"
+          },
+          {
+            "date": "2026-01-19",
+            "times": [],
+            "reason": "Margin Luther King, Jr. Day"
+          },
+          {
+            "date": "2026-02-16",
+            "times": [],
+            "reason": "Washington's Birthday"
+          },
+          {
+            "date": "2026-04-03",
+            "times": [],
+            "reason": "Good Friday"
+          },
+          {
+            "date": "2026-05-25",
+            "times": [],
+            "reason": "Memorial Day"
+          },
+          {
+            "date": "2026-06-19",
+            "times": [],
+            "reason": "Juneteenth National Independence Day"
+          },
+          {
+            "date": "2026-07-03",
+            "times": [],
+            "reason": "Independence Day"
+          },
+          {
+            "date": "2026-09-07",
+            "times": [],
+            "reason": "Labor Day"
+          },
+          {
+            "date": "2026-11-25",
+            "times": [
+              {
+                "hours": 13,
+                "minutes": 0,
+                "seconds": 0
+              }
+            ],
+            "reason": "Thanksgiving - early close"
+          },
+          {
+            "date": "2026-11-26",
+            "times": [],
+            "reason": "Thanksgiving Day"
+          },
+          {
+            "date": "2026-12-24",
+            "times": [
+              {
+                "hours": 13,
+                "minutes": 0,
+                "seconds": 0
+              }
+            ],
+            "reason": "Christmas Eve - early close"
+          },
+          {
+            "date": "2026-12-25",
+            "times": [],
+            "reason": "Christmas Day"
+          }
+        ]
+      },
+      "trading_schedule": {
+        "segments": [
+          {
+            "days_of_week": [
+              7,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "time_of_day": {
+              "hours": 21,
+              "minutes": 0,
+              "seconds": 0
+            },
+            "duration_seconds": 82800,
+            "state": "OPEN",
+            "hide_market_data": false,
+            "expire_all_orders": false
+          },
+          {
+            "days_of_week": [
+              7,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "time_of_day": {
+              "hours": 20,
+              "minutes": 0,
+              "seconds": 0
+            },
+            "duration_seconds": 3600,
+            "state": "PRE_OPEN",
+            "hide_market_data": false,
+            "expire_all_orders": false
+          }
+        ]
+      },
+      "estimated_funding_supported": false,
+      "additional_product_specs": null
+    }
+  ]
+}

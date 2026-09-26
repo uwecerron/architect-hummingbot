@@ -1,0 +1,7 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {hyperRows,bitgetRows,quote,number} from '../lib/venues.js';
+test('delisted Hyperliquid reference prices cannot appear as live prices',()=>{const rows=hyperRows([{universe:[{name:'xyz:H100',isDelisted:true}]},[{markPx:'2.6',oraclePx:'2.6',funding:'0',dayNtlVlm:'0',openInterest:'0'}]],'xyz');assert.equal(rows[0].status,'Delisted');assert.equal(rows[0].mark,null);assert.equal(rows[0].fundingRaw,null);assert.equal(rows[0].volume24h,0);});
+test('invalid and crossed quotes stay unavailable',()=>{for(const [b,a] of [[null,2],[2,1],[0,2],['',2]])assert.equal(quote(b,a).spreadBps,null);assert.equal(number(null),null);assert.equal(number('0'),0);});
+test('builder namespace and unrelated AI tokens are not confused',()=>{const rows=hyperRows([{universe:[{name:'xyz:TAO'},{name:'xyz:H100'}]},[{}, {markPx:'3'}]],'xyz');assert.equal(rows.length,1);assert.equal(rows[0].symbol,'xyz:H100');assert.equal(rows[0].mark,3);});
+test('Bitget missing market is distinct from upstream failure and suspended prices hidden',()=>{const t={code:'00000',data:[{symbol:'H100USDT',markPrice:'2',bidPr:'1',askPr:'3',fundingRate:'0'}]},c={code:'00000',data:[{symbol:'H100USDT',symbolStatus:'suspend',fundInterval:'8'}]};const rows=bitgetRows(t,c);assert.equal(rows[0].mark,null);assert.equal(rows[0].bid,undefined);assert.equal(rows[1].status,'Not listed');assert.throws(()=>bitgetRows({code:'error'},c));});
