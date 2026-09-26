@@ -71,3 +71,15 @@ async function refreshLighter(){
  }catch{$('#lighter-status').textContent='Lighter data unavailable or invalid. No synthetic prices substituted. Try refresh.';}finally{btn.disabled=false;}
 }
 $('#refresh-lighter').addEventListener('click',refreshLighter);refreshLighter();
+
+async function refreshVenues(){
+ const button=$('#refresh-venues');if(button.disabled)return;button.disabled=true;
+ $('#venues-status').textContent='Checking public market catalogues and quotes…';
+ try{const r=await fetch('/api/venues');if(!r.ok)throw Error();const d=await r.json();if(!Array.isArray(d.rows))throw Error();
+ const value=(v,digits=4)=>Number.isFinite(v)?num(v,digits):'—';
+ $('#venues-status').textContent=`Received ${d.received} · ${d.rows.filter(r=>r.status==='Listed'||r.status==='Active').length} listed instruments with connected feeds · status checked at each refresh`;
+ $('#venues-table').innerHTML=`<table><thead><tr><th>VENUE / NETWORK</th><th>CONTRACT / STATUS</th><th>MARK / INDEX</th><th>BID / ASK</th><th>SPREAD</th><th>24H QUOTE VOLUME</th><th>FUNDING (RAW)</th><th>EVIDENCE</th></tr></thead><tbody>${d.rows.map(r=>`<tr><td><strong>${esc(r.venue)}</strong><br><small>${esc(r.network)}</small></td><td>${esc(r.symbol)}<br><strong>${esc(r.status)}</strong></td><td>${value(r.mark)} / ${value(r.index)}</td><td>${value(r.bid)} / ${value(r.ask)}</td><td>${value(r.spreadBps,1)}${Number.isFinite(r.spreadBps)?' bps':''}</td><td>${Number.isFinite(r.volume24h)?num(r.volume24h,0):'—'}</td><td>${value(r.fundingRaw,8)}<br><small>${r.fundingHours?esc(r.fundingHours)+'h interval':'Interval not normalized'}</small></td><td class="venue-evidence">${esc(r.note)}${r.exchangeTimestamp?'<br>Exchange time: '+esc(r.exchangeTimestamp):''}${r.source?'<br><a target="_blank" rel="noopener" href="'+esc(r.source)+'">Source ↗</a>':''}</td></tr>`).join('')}</tbody></table>`;
+ }catch{$('#venues-table').innerHTML='';$('#venues-status').textContent='Market feeds unavailable. Refresh to retry; previous quotes cleared.';}finally{button.disabled=false;}
+}
+$('#refresh-venues').addEventListener('click',refreshVenues);
+refreshVenues();setInterval(()=>{if(!document.hidden)refreshVenues();},60000);
