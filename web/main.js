@@ -95,3 +95,11 @@ async function refreshVenues(){
 }
 $('#refresh-venues').addEventListener('click',refreshVenues);
 refreshVenues();setInterval(()=>{if(!document.hidden)refreshVenues();},60000);
+async function refreshSurface(){
+ const btn=$('#refresh-surface');if(btn.disabled)return;btn.disabled=true;
+ try{const response=await fetch('/api/surface');if(!response.ok)throw Error();const d=await response.json();
+ $('#surface-status').textContent='Snapshot received '+d.received+' · darker cells = higher estimated execution cost';
+ $('#surface-grid').innerHTML='<div class="table-scroll"><table class="surface-table"><thead><tr><th>MARKET / SIDE</th>'+[100,1000,5000,10000,25000,100000,500000].map(n=>'<th>'+num(n,0)+' USDT</th>').join('')+'</tr></thead><tbody>'+d.markets.map(m=>m.error?'<tr><th>'+esc(m.symbol)+'</th><td colspan="7">'+esc(m.error)+'</td></tr>':m.rows.map(r=>'<tr><th>'+esc(m.symbol)+'<br>'+esc(r.direction)+'</th>'+r.cells.map(c=>'<td style="background:'+(c.vwap===null?'#e5e9eb':`hsl(192 45% ${94-Math.min(1,c.impactBps/150)*42}%)`)+'">'+(c.vwap===null?'Insufficient<br>depth':'<strong>'+num(c.vwap,4)+'</strong><br>'+num(c.impactBps,1)+' bps')+'</td>').join('')+'</tr>').join('')).join('')+'</tbody></table></div><p class="small">'+d.markets.map(m=>esc(m.symbol)+': '+esc(m.timestamp||'unavailable')).join(' · ')+'</p>';
+ }catch{$('#surface-grid').innerHTML='';$('#surface-status').textContent='Surface unavailable. No estimated values substituted.';}finally{btn.disabled=false;}
+}
+$('#refresh-surface').addEventListener('click',refreshSurface);refreshSurface();setInterval(()=>{if(!document.hidden)refreshSurface();},60000);

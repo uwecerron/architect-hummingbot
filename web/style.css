@@ -7,3 +7,4 @@
 
 .venue-comparison{margin:14px 0 30px}.venue-comparison>p{font-size:12px;line-height:1.8;color:#60766a}.venue-comparison td{white-space:normal;min-width:160px;line-height:1.7}.venue-comparison td:first-child{min-width:100px}.venue-comparison .metrics{margin-top:18px}.venue-links a{color:#176c59;text-decoration:underline}.venue-comparison .metric{font-size:23px}
 #compute-markets {margin-bottom:24px} #compute-markets table {min-width:1250px} #compute-markets td {vertical-align:top} #compute-markets small {color:var(--muted,#647780)} #compute-markets .venue-evidence {min-width:270px;max-width:340px;white-space:normal;font-size:12px;line-height:1.6}
+#price-surface {margin:24px 0} .surface-table {min-width:1000px;width:100%;border-collapse:separate;border-spacing:5px}.surface-table td {text-align:center;border-radius:6px;min-width:110px;color:#112c35;padding:20px 10px}.surface-table th {white-space:nowrap}.surface-table strong {font-size:19px}
