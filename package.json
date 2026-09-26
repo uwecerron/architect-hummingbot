@@ -12,7 +12,8 @@
     "preview": "vite preview --host 127.0.0.1",
     "test": "node --test tests-js/*.test.mjs",
     "replay": "node scripts/node/replay.mjs",
-    "collect": "node scripts/node/collect.mjs"
+    "collect": "node scripts/node/collect.mjs",
+    "collect:compute": "node scripts/node/collect-compute.mjs"
   },
   "devDependencies": {
     "vite": "^7.1.0"

@@ -110,3 +110,7 @@ Contributed to the existing `uwecerron/architect-hummingbot` repository. No lice
 
 ### Lighter H100 comparison
 The dashboard discovers the active H100 perpetual from Lighter’s public mainnet catalogue and reads its book and funding-rate feed through `/api/lighter`. No API key is needed. Results are cached for up to 30 seconds; receipt time is not an exchange event timestamp. Depth is limited to 100 returned orders per side, with a 1% midprice band. Funding is raw until its period is verified. The comparison does not treat Architect’s dated Compute Desk future and Lighter’s perpetual as interchangeable or calculate an arbitrage edge. Synthetic replay is unchanged.
+
+## Bitget and Lighter compute collectors
+
+Record H100/B200 market observations with `npm run collect:compute -- --once`, or use `scripts/compute_venues_hb.py` with the official Hummingbot Bitget/Lighter perpetual connectors. **Read-only research, not live execution.** Node public-API collection has been smoke-tested; full Hummingbot runtime validation remains outstanding. See [installation, sources, output schema and adoption notes](docs/COMPUTE_VENUES.md).
